@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reddit AI Summarizer - Summary</title>
+  <link rel="stylesheet" href="../static/summary.css">
+  <link rel="stylesheet" href="../static/style.css">
+
+</head>
+
+<body>
+  <div class="container summary-page-container">
+    <h1>🤖 Reddit<span> AI</span></h1>
+
+    <!-- {% if error %}
+    <p class="error-message">{{ error | safe }}</p>
+    {% endif %} -->
+
+    {# --- POST DETAILS CARD (New Design) --- #}
+    <div class="post-details-container"> {# This is the new orange-bordered container #}
+      {% if post_details %}
+      <h2 class="post-title">
+        {# Title with hyperlink #}
+        {% if post_details.get('url') %}
+        <a href="{{ post_details.get('url') }}" target="_blank" title="View Original Post On Reddit">
+          {{ post_details.get('title', 'Original Post Title') }}
+        </a>
+        {% else %}
+        {{ post_details.get('title', 'Original Post Title') }}
+        {% endif %}
+      </h2>
+      <p class="post-meta">
+        u/{{ post_details.get('author', 'authorname') }} <span>in</span> r/{{ post_details.get('subreddit',
+        'subredditname') }}
+      </p>
+
+      <div class="stats-grid">
+        <div class="stat-card upvotes-card">
+          <span class="stat-number">{{ post_details.get('upvotes', 'N/A') }}</span>
+          <span class="stat-label">Upvotes</span>
+        </div>
+        <div class="stat-card downvotes-card">
+          <span class="stat-number">{{ post_details.get('downvotes', 'N/A') }}</span>
+          <span class="stat-label">Downvotes</span>
+        </div>
+        <div class="stat-card comments-card">
+          <span class="stat-number">{{ post_details.get('num_comments', 'N/A') }}</span>
+          <span class="stat-label">Comments</span>
+        </div>
+      </div>
+      {% else %}
+      <p class="no-details-message">No post details available.</p>
+      {% if error %}
+      <p class="error-message" style="color: var(--accent-red);">{{ error | safe }}</p>
+      {% endif %}
+      {% endif %}
+    </div>
+
+    {% if summary_html %}
+    <div class="summary-box">
+      {{ summary_html | safe }}
+    </div>
+
+    <div class="center-button-container">
+      <a href="{{ url_for('index') }}" class="button-secondary">Summarize Another Post</a>
+    </div>
+    {% endif %}
+
+  </div>
+</body>
+
+</html>

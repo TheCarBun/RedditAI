@@ -1,0 +1,143 @@
+:root {
+  --dark-bg: #030304;
+  --darker-bg: #18181b;
+  --text-light: #e0e0e0;
+  --text-muted: #888;
+  --accent-reddit: #ff4402;
+  --white: #fff;
+  --accent-blue: #007bff;
+  --accent-green: #28a745;
+  --accent-red: #dc3545;
+  --border-color: #323232;
+  --upvote-color: 23, 201, 100;
+  --downvote-color: 243, 18, 96;
+  --comment-color: 0, 111, 238;
+  --font-main: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-mono: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', 'Source Code Pro', monospace;
+}
+
+/* --- New Original Post Details Container --- */
+.post-details-container {
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 30px;
+  margin-bottom: 40px;
+  background-color: var(--darker-bg);
+  text-align: center;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.post-title {
+  font-size: 2.8em;
+  /* Large title as in example */
+  font-weight: 700;
+  color: white;
+  /* Orange title color */
+  margin-bottom: 10px;
+  /* Space below title */
+  line-height: 1.2;
+}
+
+.post-title a {
+  color: inherit;
+  /* Inherit color from parent h2 */
+  text-decoration: none;
+  /* No underline by default */
+  transition: 0.7s;
+}
+
+.post-title a:hover {
+  text-decoration: underline;
+}
+
+.post-meta {
+  font-family: var(--font-mono);
+  /* Monospaced font for meta info */
+  font-size: 1.1em;
+  color: var(--text-light);
+  /* Muted color for meta info */
+  margin-bottom: 30px;
+  /* Space below meta before stats */
+}
+
+.post-meta span {
+  color: var(--text-muted);
+}
+
+.stats-grid {
+  display: flex;
+  /* Use flexbox for the three stat cards */
+  justify-content: center;
+  /* Center the cards horizontally */
+  gap: 20px;
+  /* Space between cards */
+  flex-wrap: wrap;
+  /* Allow cards to wrap on smaller screens */
+  width: 100%;
+  /* Ensure it spans full width for centering */
+}
+
+.stat-card {
+  background-color: var(--darker-bg);
+  /* Default background, will be overridden */
+  border-radius: 8px;
+  /* Slightly rounded corners */
+  padding: 15px 25px;
+  /* Internal padding */
+  min-width: 150px;
+  /* Minimum width for each card */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  /* Stack number and label */
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  /* Default transparent border */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  /* Subtle shadow for each stat card */
+}
+
+.stat-number {
+  font-size: 1.875rem;
+  /* Large numbers */
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+/* .stat-card .stat-label {
+  font-size: 0.9em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+} */
+
+/* Specific colors for each stat card */
+.upvotes-card {
+  background-color: rgba(var(--upvote-color), 0.1);
+  color: rgb(var(--upvote-color));
+}
+
+.downvotes-card {
+  background-color: rgba(var(--downvote-color), 0.1);
+  color: rgb(var(--downvote-color));
+}
+
+.comments-card {
+  background-color: rgba(var(--comment-color), 0.1);
+  color: rgb(var(--comment-color));
+}
+
+
+/* Fallback message styling */
+.no-details-message {
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 20px;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reddit AI Summarizer</title>
+  <link rel="stylesheet" href="../static/style.css">
+  <script src="../static/script.js" defer></script>
+
+</head>
+
+<body>
+  <div class="container">
+    <h1>🤖 Reddit <span>AI</span></h1>
+    <p>Enter a Reddit post URL below to get a summary of what people are discussing in its comments.</p>
+
+    {% if error %}
+    <p class="error-message">Error: {{ error }}</p>
+    {% endif %}
+
+    <form action="/summarize" method="post" id="summaryForm">
+      <label for="reddit_url">Reddit Post URL:</label>
+      <input type="url" id="reddit_url" name="reddit_url"
+        placeholder="e.g., https://www.reddit.com/r/subreddit/comments/abc123/post_title/"
+        value="{{ reddit_url if reddit_url else '' }}">
+      <div class="button-container">
+        <input class="button-primary" type="submit" value="Summarize" id="submitButton">
+        <div class="spinner" id="loadingSpinner"></div>
+      </div>
+    </form>
+
+    <!-- {% if summary %}
+    <div class="summary-box">
+      {{ summary | safe }}
+      <div class="center-button-container">
+        <a href="{{ url_for('index') }}" class="button-secondary">Summarize Another Post</a>
+      </div>
+    </div>
+    {% endif %} -->
+  </div>
+</body>
+
+</html>

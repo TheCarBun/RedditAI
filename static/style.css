@@ -1,0 +1,289 @@
+:root {
+  --dark-bg: #030304;
+  --darker-bg: #18181b;
+  --text-light: #e0e0e0;
+  --text-muted: #888;
+  --accent-reddit: #ff4402;
+  --white: #fff;
+  --accent-blue: #007bff;
+  --accent-green: #28a745;
+  --accent-red: #dc3545;
+  --border-color: #323232;
+  --font-main: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-mono: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', 'Source Code Pro', monospace;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--dark-bg);
+  color: var(--text-light);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  /* Full viewport height */
+}
+
+/* --- Container and Layout --- */
+.container {
+  max-width: 900px;
+  width: 90%;
+  padding: 40px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+h1 {
+  font-size: 3.5em;
+  color: var(--accent-reddit);
+  margin-bottom: 20px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  text-shadow: 0 0 10px rgba(255, 69, 2, 0.5);
+}
+
+h1 span {
+  color: var(--white);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+h2,
+h3,
+h4 {
+  color: var(--text-light);
+  margin-bottom: 1em;
+}
+
+h3 {
+  font-size: 1.8em;
+}
+
+h4 {
+  font-size: 1.4em;
+}
+
+p {
+  color: var(--text-muted);
+  font-size: 1.1em;
+  margin-bottom: 30px;
+}
+
+/* --- Form Styles --- */
+form {
+  background-color: var(--darker-bg);
+  padding: 30px;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  margin-bottom: 40px;
+  border: 1px solid rgba(0, 123, 255, 0.25);
+}
+
+label {
+  display: block;
+  text-align: left;
+  margin-bottom: 8px;
+  color: var(--text-light);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+input[type="url"] {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  background-color: #222;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  color: var(--text-light);
+  font-size: 1em;
+  box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="url"]:focus {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  /* More space */
+  margin-top: 20px;
+}
+
+.button-primary {
+  background-color: var(--darker-bg);
+  color: var(--accent-reddit);
+  padding: 15px 50px;
+  border: 2px solid var(--accent-reddit);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: bold;
+  transition: 0.3s;
+  text-transform: none;
+}
+
+.button-primary:hover {
+  color: white;
+  background-color: #e43f03;
+  box-shadow: 0 0 5px rgba(255, 69, 2);
+  transform: translateY(-2px);
+}
+
+.button-primary[disabled] {
+  background-color: #555;
+  cursor: not-allowed;
+  opacity: 0.7;
+  box-shadow: none;
+  transform: none;
+}
+
+/* --- Spinner CSS --- */
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-top: 4px solid var(--white);
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  animation: spin 1s linear infinite;
+  display: none;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- Summary Box Styling (Like the Exposed Key card) --- */
+.summary-box {
+  background-color: var(--darker-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 35px;
+  text-align: left;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+  padding-bottom: 35px;
+}
+
+/* Styling for markdown elements within summary-box */
+.summary-box h3 {
+  color: var(--accent-reddit);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+  font-size: 2em;
+  font-weight: 700;
+}
+
+.summary-box h4 {
+  color: var(--accent-reddit);
+  font-size: 1.5em;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.summary-box p {
+  color: var(--text-light);
+  margin-bottom: 1em;
+  font-size: 1em;
+  /* Reset paragraph font size */
+}
+
+.summary-box ul {
+  list-style: none;
+  /* Remove default bullet points */
+  padding-left: 0;
+  margin-bottom: 1.5em;
+}
+
+.summary-box ul li {
+  position: relative;
+  padding-left: 25px;
+  /* Space for custom bullet */
+  margin-bottom: 8px;
+  color: var(--text-light);
+  font-size: 1em;
+}
+
+.summary-box ul li::before {
+  content: '•';
+  color: var(--accent-reddit);
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+/* Specific styling for the emojis and bold text in the summary list */
+.summary-box li strong {
+  color: var(--text-light);
+  /* Ensure bold text is visible */
+}
+
+/* Error message specific style to stand out */
+.error-message {
+  background-color: #400000;
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+}
+
+.summary-box pre {
+  background-color: #0d0d0d;
+  border: 1px solid #333;
+  padding: 15px;
+  border-radius: 5px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  color: #eee;
+}
+
+.summary-box code {
+  font-family: var(--font-mono);
+  background-color: #0d0d0d;
+  /* Inline code background */
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.button-secondary {
+  background-color: transparent;
+  color: var(--accent-reddit);
+  padding: 12px 25px;
+  border: 2px solid var(--accent-reddit);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 30px;
+}
+
+.button-secondary:hover {
+  background-color: var(--accent-reddit);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.center-button-container {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
