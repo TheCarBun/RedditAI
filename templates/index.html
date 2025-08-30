@@ -20,10 +20,12 @@
     {% endif %}
 
     <form action="/summarize" method="post" id="summaryForm">
-      <label for="reddit_url">Reddit Post URL:</label>
-      <input type="url" id="reddit_url" name="reddit_url"
-        placeholder="e.g., https://www.reddit.com/r/subreddit/comments/abc123/post_title/"
-        value="{{ reddit_url if reddit_url else '' }}">
+      <div class="form-input">
+        <label for="reddit_url">Reddit Post URL:</label>
+        <input type="url" id="reddit_url" name="reddit_url"
+          placeholder="e.g., https://www.reddit.com/r/subreddit/comments/abc123/post_title/"
+          value="{{ reddit_url if reddit_url else '' }}">
+      </div>
       <div class="button-container">
         <input class="button-primary" type="submit" value="Summarize" id="submitButton">
         <div class="spinner" id="loadingSpinner"></div>

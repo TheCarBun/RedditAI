@@ -14,15 +14,13 @@
   <div class="container summary-page-container">
     <h1>🤖 Reddit<span> AI</span></h1>
 
-    <!-- {% if error %}
+    {% if error %}
     <p class="error-message">{{ error | safe }}</p>
-    {% endif %} -->
+    {% endif %}
 
-    {# --- POST DETAILS CARD (New Design) --- #}
-    <div class="post-details-container"> {# This is the new orange-bordered container #}
+    <div class="post-details-container">
       {% if post_details %}
       <h2 class="post-title">
-        {# Title with hyperlink #}
         {% if post_details.get('url') %}
         <a href="{{ post_details.get('url') }}" target="_blank" title="View Original Post On Reddit">
           {{ post_details.get('title', 'Original Post Title') }}
@@ -32,7 +30,8 @@
         {% endif %}
       </h2>
       <p class="post-meta">
-        u/{{ post_details.get('author', 'authorname') }} <span>in</span> r/{{ post_details.get('subreddit',
+        <span>By</span> u/{{ post_details.get('author', 'authorname') }} <span>in</span> r/{{
+        post_details.get('subreddit',
         'subredditname') }}
       </p>
 
@@ -60,6 +59,12 @@
 
     {% if summary_html %}
     <div class="summary-box">
+      <div class="summary-content">
+
+      </div>
+      <div class="community-insights">
+
+      </div>
       {{ summary_html | safe }}
     </div>
 

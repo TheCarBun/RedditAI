@@ -1,0 +1,2 @@
+- Change instructios.py so AI returns a JSON format for the summary and community insights.
+- Use the new JSON to style it using HTML and CSS so it looks better and not like a blob of text.

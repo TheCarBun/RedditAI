@@ -72,7 +72,7 @@ p {
 }
 
 /* --- Form Styles --- */
-form {
+.form-input {
   background-color: var(--darker-bg);
   padding: 30px;
   border-radius: 0.5rem;
