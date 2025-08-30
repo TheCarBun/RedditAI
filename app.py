@@ -1,10 +1,6 @@
 from flask import Flask, render_template, request
-
 from reddit_ai import run_reddit_ai, get_post_details, reddit as praw_initialized
-
 import markdown
-from dotenv import load_dotenv
-load_dotenv()
 
 
 app = Flask(__name__)
