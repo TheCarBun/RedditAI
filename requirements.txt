@@ -1,4 +1,4 @@
-agno                      1.6.3
-Flask                     3.1.1
-google-genai              1.21.0
-praw                      7.8.1
+agno==1.6.3
+Flask==3.1.1
+google-genai==1.21.0
+praw==7.8.1
