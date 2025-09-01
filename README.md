@@ -1,4 +1,4 @@
-# [RedditAI](reddit-ai-one.vercel.app)
+# [RedditAI](https://reddit-ai-one.vercel.app)
 
 🎃 **RedditAI** is a Flask web app that leverages Google Gemini and the Reddit API to fetch Reddit post comments and generate AI-powered summaries or insights. It is designed for easy exploration and summarization of Reddit discussions.
 
