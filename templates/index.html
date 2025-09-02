@@ -7,10 +7,19 @@
   <title>Reddit AI Summarizer</title>
   <link rel="stylesheet" href="../static/style.css">
   <script src="../static/script.js" defer></script>
-
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
+  <!-- Header -->
+  <header class="header">
+    <a href="https://github.com/TheCarBun/redditai" target="_blank">
+      <i class="fab fa-github"></i> GitHub
+    </a>
+  </header>
+
+  <!-- Main Container -->
   <div class="container">
     <h1>🤖 Reddit <span>AI</span></h1>
     <p>Enter a Reddit post URL below to get a summary of what people are discussing in its comments.</p>
@@ -31,15 +40,6 @@
         <div class="spinner" id="loadingSpinner"></div>
       </div>
     </form>
-
-    <!-- {% if summary %}
-    <div class="summary-box">
-      {{ summary | safe }}
-      <div class="center-button-container">
-        <a href="{{ url_for('index') }}" class="button-secondary">Summarize Another Post</a>
-      </div>
-    </div>
-    {% endif %} -->
   </div>
 </body>
 

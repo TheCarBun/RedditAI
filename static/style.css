@@ -27,6 +27,30 @@ body {
   /* Full viewport height */
 }
 
+/* --- Header --- */
+.header {
+  position: absolute;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
+.header a {
+  color: var(--text-light);
+  font-size: 1em;
+  text-decoration: none;
+  margin-left: 15px;
+  transition: color 0.3s;
+}
+
+.header a:hover {
+  color: var(--accent-reddit);
+}
+
 /* --- Container and Layout --- */
 .container {
   max-width: 900px;
