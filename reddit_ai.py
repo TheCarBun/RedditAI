@@ -1,12 +1,13 @@
-from agno.agent import Agent
-from agno.models.google import Gemini
+from google.genai import Client, types
 from instructions import instructions
+from schema import OutputSchema
 import praw
+import json
 from datetime import datetime
 
 import os
-# from dotenv import load_dotenv
-# load_dotenv()
+from dotenv import load_dotenv
+load_dotenv()
 
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
@@ -22,6 +23,15 @@ reddit = praw.Reddit(
 if reddit.read_only:
     print(">> Reddit API running in read-only mode.")
 
+
+def get_post_submission(post_url: str):
+    try:
+        print(">> Fetching comments for post: ", post_url)
+        submission = reddit.submission(url=post_url)
+        return submission
+    except Exception as e:
+        print(f">> Error fetching submission for {post_url}: {e}")
+        return None
 
 # def get_subreddit_posts(subreddit_name, limit=10, sort_by='hot'):
 #     subreddit = reddit.subreddit(subreddit_name)
@@ -61,7 +71,7 @@ if reddit.read_only:
 #     return posts
 
 
-def get_post_comments(post_url: str, limit=0):
+def get_post_comments(submission, limit=0):
     """Fetches comments for a given Reddit post URL
 
     Args:
@@ -71,40 +81,100 @@ def get_post_comments(post_url: str, limit=0):
     Returns:
         _type_: _description_
     """
-    print(">> Fetching comments for post: ", post_url)
 
     try:
         print(">> Trying using URL")
-        submission = reddit.submission(url=post_url)
-        print(">> Worked using URL")
+        # limit=None tries to get all. limit=0 removes them (only top-level without replies)
+        submission.comments.replace_more(limit)
+        comments = submission.comments.list()
+        print(f">> Fetched {len(comments)} comments from post")
+        return comments
     except Exception as e:
         print(">> Didn't work")
-        print(f">> Error fetching submission for {post_url}: {e}")
+        return None
 
-    comments_data = []
 
-    # limit=None tries to get all. limit=0 removes them (only top-level without replies)
-    submission.comments.replace_more(limit)
+def get_most_upvoted_and_downvoted_comments(comments: list):
+    # --- Finding the Most Upvoted Comment ---
+    most_upvoted_comment = None
+    max_score = -float('inf')  # Start with the lowest possible number
 
-    for comment in submission.comments.list():
-        if comment.author is None and comment.body is None:
+    # --- Finding the Most Downvoted Comment ---
+    most_downvoted_comment = None
+    min_score = float('inf')   # Start with the highest possible number
+
+    for comment in comments:
+        # We check comment.score, which is the net upvotes (upvotes - downvotes)
+
+        # Check for Most Upvoted
+        if comment.score > max_score:
+            max_score = comment.score
+            most_upvoted_comment = comment
+
+        # Check for Most Downvoted
+        if comment.score < min_score:
+            min_score = comment.score
+            most_downvoted_comment = comment
+
+    # --- Print Results ---
+    print("\n--- Results ---")
+
+    if most_upvoted_comment:
+        print(f"Most Upvoted Comment Score: {most_upvoted_comment.score}")
+        print(
+            f"Most Upvoted Comment Body: {most_upvoted_comment.body[:100]}...")
+    else:
+        print("No comments found for most upvoted.")
+
+    if most_downvoted_comment:
+        print(
+            f"\nMost Downvoted Comment Score: {most_downvoted_comment.score}")
+        print(
+            f"Most Downvoted Comment Body: {most_downvoted_comment.body[:100]}...")
+    else:
+        print("No comments found for most downvoted.")
+
+    return most_upvoted_comment, most_downvoted_comment
+
+
+def get_most_controversial_comment(comments: list):
+    def calculate_controversy_proxy(comment):
+        """
+        A simple proxy for controversy: a score close to zero with lots of replies.
+        This gives preference to comments that sparked debate (low score, high reply count).
+        """
+        score_closeness_to_zero = abs(
+            comment.score) + 1  # Add 1 to avoid division by zero
+
+        # We want to maximize the debate-sparking: high replies, low score
+        if score_closeness_to_zero < 50:  # Only consider those close to 0 net score
+            return (len(comment.replies.list()) * 10) / score_closeness_to_zero
+        return 0  # Exclude comments that are overwhelmingly positive or negative
+
+    most_controversial_comment = None
+    max_controversy = -float('inf')
+
+    for comment in comments:
+        # Skip comments that don't have replies/are too new (optional but recommended)
+        if comment.score < 5 and len(comment.replies.list()) < 5:
             continue
 
-        comments_data.append({
-            "submission_id": submission.id,
-            "author": comment.author.name if comment.author else "[deleted]",
-            "body": comment.body,
-            "score": comment.score,
-            "is_submitter": comment.is_submitter
-        })
-    print(">> Returning Comment Data")
-    return comments_data
+        controversy_value = calculate_controversy_proxy(comment)
+
+        if controversy_value > max_controversy:
+            max_controversy = controversy_value
+            most_controversial_comment = comment
+
+    if most_controversial_comment:
+        print(
+            f"\nMost Controversial Comment Score: {most_controversial_comment.score}")
+        print(
+            f"Most Controversial Comment Body: {most_controversial_comment.body[:100]}...")
+        return most_controversial_comment
 
 
-def get_post_details(post_url: str):
+def get_post_details(submission):
     try:
-        submission = reddit.submission(url=post_url)
-
         upvotes = 'N/A'
         downvotes = 'N/A'
 
@@ -151,27 +221,59 @@ def get_post_details(post_url: str):
         print("Found Post: ", post_details)
         return post_details
     except Exception as e:
-        return f"ERROR: Could not find Post Details with URL: {post_url}"
+        return f"ERROR: Could not find Post Details: {e}"
 
 
-def run_reddit_ai(prompt: str):
-    model = Gemini(
-        id="gemini-2.5-flash",
-        api_key=GEMINI_API_KEY
-    )
+def reddit_ai_response(post_details, comments: list, model="gemini-2.5-flash"):
+    # Process comments into author and body
+    if comments is None:
+        return None
+    else:
+        comments_data = []
+        for comment in comments:
+            if comment.author is None and comment.body is None:
+                continue
 
-    reddit_tools = [get_post_comments]
+            comments_data.append({
+                "author": comment.author.name if comment.author else "[deleted]",
+                "body": comment.body
+            })
+        print(">> Returning Comment Data")
 
-    agent = Agent(
-        name="RedditAI",
-        model=model,
-        instructions=instructions,
-        tools=reddit_tools,
-        show_tool_calls=True,
-        read_chat_history=True,
-        markdown=True,
-        debug_mode=True
-    )
+        # ----------- GEMINI PROCESSING -----------
+        client = Client(api_key=GEMINI_API_KEY)
 
-    response = agent.run(prompt)
-    return response
+        try:
+            prompt = f"Post Details:\n {post_details}\n\nComments:\n{comments_data}"
+            response = client.models.generate_content(
+                model=model,
+                contents=types.Part.from_text(text=prompt),
+                config=types.GenerateContentConfig(
+                    system_instruction=instructions,
+                    temperature=0.2,
+                    response_mime_type='application/json',
+                    response_schema=OutputSchema,
+                )
+            )
+
+            print("\n\n", "---"*5, "AI RESPONSE",
+                  "---"*5, f"\n\n{response.text}", )
+            return response
+
+        except json.decoder.JSONDecodeError:
+            print("Unable to decode JSON")
+
+
+def main():
+    url = input("Enter Reddit URL: ")
+    submission = get_post_submission(url)
+    if submission:
+        post_details = get_post_details(submission)
+        comments = get_post_comments(submission)
+        get_most_upvoted_and_downvoted_comments(comments)
+        get_most_controversial_comment(comments)
+        reddit_ai_response(post_details, comments)
+
+
+if __name__ == "__main__":
+    main()

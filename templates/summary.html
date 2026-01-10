@@ -5,9 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reddit AI Summarizer - Summary</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../static/summary.css">
   <link rel="stylesheet" href="../static/style.css">
-
 </head>
 
 <body>
@@ -15,7 +19,9 @@
     <h1>🤖 Reddit<span> AI</span></h1>
 
     {% if error %}
-    <p class="error-message">{{ error | safe }}</p>
+    <div class="error-message">
+      {{ error | safe }}
+    </div>
     {% endif %}
 
     <div class="post-details-container">
@@ -29,11 +35,13 @@
         {{ post_details.get('title', 'Original Post Title') }}
         {% endif %}
       </h2>
-      <p class="post-meta">
-        <span>By</span> u/{{ post_details.get('author', 'authorname') }} <span>in</span> r/{{
-        post_details.get('subreddit',
-        'subredditname') }}
-      </p>
+      <div class="post-meta">
+        <span>By u/{{ post_details.get('author', 'authorname') }}</span>
+        <span>•</span>
+        <span>r/{{ post_details.get('subreddit', 'subredditname') }}</span>
+        <span>•</span>
+        <span>{{ post_details.get('created_date', '') }}</span>
+      </div>
 
       <div class="stats-grid">
         <div class="stat-card upvotes-card">
@@ -51,25 +59,94 @@
       </div>
       {% else %}
       <p class="no-details-message">No post details available.</p>
-      {% if error %}
-      <p class="error-message" style="color: var(--accent-red);">{{ error | safe }}</p>
-      {% endif %}
       {% endif %}
     </div>
 
-    {% if summary_html %}
+    {% if summary_data %}
     <div class="summary-box">
-      <div class="summary-content">
 
+      <!-- Short Summary Section -->
+      <div class="summary-section">
+        <div class="section-header">
+          <span class="section-icon">⚡</span>
+          <h3 class="section-title">Quick Summary</h3>
+        </div>
+        <p class="short-summary-text">{{ summary_data.short_summary }}</p>
       </div>
-      <div class="community-insights">
 
+      <!-- Detailed Viewpoint Section -->
+      <div class="summary-section">
+        <div class="section-header">
+          <span class="section-icon">🧐</span>
+          <h3 class="section-title">Detailed Viewpoints</h3>
+        </div>
+        <div class="detailed-viewpoint-text">{{ summary_data.detailed_viewpoint_summary }}</div>
       </div>
-      {{ summary_html | safe }}
+
+      <!-- Insights Grid (Sentiment & Emotions) -->
+      <div class="summary-section">
+        <div class="insights-grid">
+
+          <!-- Sentiment -->
+          <div class="insight-column">
+            <div class="section-header">
+              <span class="section-icon">🎭</span>
+              <h3 class="section-title">Sentiment</h3>
+            </div>
+            <div class="sentiment-badge sentiment-{{ summary_data.sentiment_analysis }}">
+              {{ summary_data.sentiment_analysis }}
+            </div>
+          </div>
+
+          <!-- Emotions -->
+          <div class="insight-column">
+            <div class="section-header">
+              <span class="section-icon">💭</span>
+              <h3 class="section-title">Dominant Emotions</h3>
+            </div>
+            <div class="emotion-tags">
+              {% for emotion in summary_data.emotion_detection %}
+              <span class="emotion-tag">{{ emotion }}</span>
+              {% endfor %}
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Toxicity Section (Optional) -->
+      {% if summary_data.toxicity_detection is not none %}
+      <div class="summary-section">
+        <div class="section-header">
+          <span class="section-icon">☣️</span>
+          <h3 class="section-title">Toxicity Level</h3>
+        </div>
+        <div class="toxicity-container">
+          <div class="toxicity-bar-bg">
+            <div class="toxicity-bar-fill" style="width: {{ summary_data.toxicity_detection * 100 }}%;"></div>
+          </div>
+          <span class="toxicity-score">{{ (summary_data.toxicity_detection * 100) | round(1) }}%</span>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- AI Take Section -->
+      <div class="summary-section ai-take-section">
+        <div class="section-header">
+          <span class="section-icon">🤖</span>
+          <h3 class="section-title">AI Take</h3>
+        </div>
+        <div class="ai-take-content">
+          <p class="ai-take-text">{{ summary_data.ai_take }}</p>
+        </div>
+      </div>
+
     </div>
 
     <div class="center-button-container">
-      <a href="{{ url_for('index') }}" class="button-secondary">Summarize Another Post</a>
+      <a href="{{ url_for('index') }}" class="button-secondary">
+        <span>Summarize Another Post</span>
+      </a>
     </div>
     {% endif %}
 

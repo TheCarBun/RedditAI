@@ -5,6 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reddit AI Summarizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../static/style.css">
   <script src="../static/script.js" defer></script>
   <!-- Font Awesome for icons -->
@@ -25,19 +30,17 @@
     <p>Enter a Reddit post URL below to get a summary of what people are discussing in its comments.</p>
 
     {% if error %}
-    <p class="error-message">Error: {{ error }}</p>
+    <div class="error-message">Error: {{ error }}</div>
     {% endif %}
 
     <form action="/summarize" method="post" id="summaryForm">
       <div class="form-input">
         <label for="reddit_url">Reddit Post URL:</label>
-        <input type="url" id="reddit_url" name="reddit_url"
-          placeholder="e.g., https://www.reddit.com/r/subreddit/comments/abc123/post_title/"
+        <input type="url" id="reddit_url" name="reddit_url" required placeholder="Paste Reddit URL here..."
           value="{{ reddit_url if reddit_url else '' }}">
       </div>
       <div class="button-container">
-        <input class="button-primary" type="submit" value="Summarize" id="submitButton">
-        <div class="spinner" id="loadingSpinner"></div>
+        <button class="button-primary" type="submit" id="submitButton">Summarize</button>
       </div>
     </form>
   </div>

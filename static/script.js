@@ -1,8 +1,12 @@
 document.getElementById("summaryForm").addEventListener("submit", function () {
-  // Show the spinner
-  document.getElementById("loadingSpinner").style.display = "block";
-  // Disable the submit button to prevent multiple submissions
   const submitButton = document.getElementById("submitButton");
+  
+  // Add loading class to trigger CSS animation
+  submitButton.classList.add("button-loading");
+  
+  // Disable the button
   submitButton.disabled = true;
-  submitButton.value = "Summarizing..."; // Change button text
+  
+  // Change text
+  submitButton.innerText = "Summarizing...";
 });

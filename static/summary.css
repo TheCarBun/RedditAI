@@ -2,142 +2,346 @@
   --dark-bg: #030304;
   --darker-bg: #18181b;
   --text-light: #e0e0e0;
-  --text-muted: #888;
-  --accent-reddit: #ff4402;
-  --white: #fff;
-  --accent-blue: #007bff;
-  --accent-green: #28a745;
-  --accent-red: #dc3545;
-  --border-color: #323232;
-  --upvote-color: 23, 201, 100;
-  --downvote-color: 243, 18, 96;
-  --comment-color: 0, 111, 238;
-  --font-main: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  --font-mono: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', 'Source Code Pro', monospace;
+  --text-muted: #a1a1aa;
+  --accent-reddit: #ff4500;
+  --white: #ffffff;
+  --accent-blue: #3b82f6;
+  --accent-green: #22c55e;
+  --accent-red: #ef4444;
+  --accent-yellow: #eab308;
+  --accent-purple: #a855f7;
+  --border-color: #27272a;
+  --card-bg: #27272a;
+  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 /* --- New Original Post Details Container --- */
 .post-details-container {
-  border: 2px solid var(--border-color);
-  border-radius: 10px;
-  padding: 30px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 40px;
   margin-bottom: 40px;
-  background-color: var(--darker-bg);
+  background: linear-gradient(145deg, var(--darker-bg), #202023);
   text-align: center;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
   width: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.post-details-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-reddit), var(--accent-purple));
 }
 
 .post-title {
-  font-size: 2.8em;
-  /* Large title as in example */
-  font-weight: 700;
-  color: white;
-  /* Orange title color */
-  margin-bottom: 10px;
-  /* Space below title */
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 16px;
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .post-title a {
   color: inherit;
-  /* Inherit color from parent h2 */
   text-decoration: none;
-  /* No underline by default */
-  transition: 0.7s;
+  background-image: linear-gradient(to right, var(--accent-reddit), var(--accent-reddit));
+  background-size: 0% 2px;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  transition: background-size 0.3s ease;
 }
 
 .post-title a:hover {
-  text-decoration: underline;
+  background-size: 100% 2px;
 }
 
 .post-meta {
   font-family: var(--font-mono);
-  /* Monospaced font for meta info */
-  font-size: 1.1em;
-  color: var(--text-light);
-  /* Muted color for meta info */
-  margin-bottom: 30px;
-  /* Space below meta before stats */
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .post-meta span {
-  color: var(--text-muted);
+  color: var(--text-light);
 }
 
 .stats-grid {
-  display: flex;
-  /* Use flexbox for the three stat cards */
-  justify-content: center;
-  /* Center the cards horizontally */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 20px;
-  /* Space between cards */
-  flex-wrap: wrap;
-  /* Allow cards to wrap on smaller screens */
   width: 100%;
-  /* Ensure it spans full width for centering */
+  max-width: 600px;
 }
 
 .stat-card {
-  background-color: var(--darker-bg);
-  /* Default background, will be overridden */
-  border-radius: 8px;
-  /* Slightly rounded corners */
-  padding: 15px 25px;
-  /* Internal padding */
-  min-width: 150px;
-  /* Minimum width for each card */
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 20px;
   text-align: center;
   display: flex;
   flex-direction: column;
-  /* Stack number and label */
   align-items: center;
   justify-content: center;
-  border: 1px solid transparent;
-  /* Default transparent border */
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-  /* Subtle shadow for each stat card */
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--text-muted);
 }
 
 .stat-number {
-  font-size: 1.875rem;
-  /* Large numbers */
+  font-size: 1.75rem;
   font-weight: 700;
   line-height: 1;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
 }
 
-/* .stat-card .stat-label {
-  font-size: 0.9em;
+.stat-label {
+  font-size: 0.85rem;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-} */
-
-/* Specific colors for each stat card */
-.upvotes-card {
-  background-color: rgba(var(--upvote-color), 0.1);
-  color: rgb(var(--upvote-color));
+  letter-spacing: 0.05em;
+  font-weight: 600;
 }
 
-.downvotes-card {
-  background-color: rgba(var(--downvote-color), 0.1);
-  color: rgb(var(--downvote-color));
+.upvotes-card .stat-number {
+  color: var(--accent-green);
 }
 
-.comments-card {
-  background-color: rgba(var(--comment-color), 0.1);
-  color: rgb(var(--comment-color));
+.downvotes-card .stat-number {
+  color: var(--accent-red);
 }
 
+.comments-card .stat-number {
+  color: var(--accent-blue);
+}
 
-/* Fallback message styling */
-.no-details-message {
+/* --- Summary Box Styling --- */
+.summary-box {
+  background-color: var(--darker-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 0;
+  /* Padding handled by children */
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.summary-section {
+  padding: 32px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.summary-section:last-child {
+  border-bottom: none;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--white);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.section-icon {
+  font-size: 1.5rem;
+}
+
+/* Short Summary */
+.short-summary-text {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-light);
+  margin: 0;
+}
+
+/* Detailed Viewpoint */
+.detailed-viewpoint-text {
+  font-size: 1rem;
+  line-height: 1.8;
   color: var(--text-muted);
+  white-space: pre-line;
+  /* Handle newlines if any */
+}
+
+/* Sentiment & Emotions Grid */
+.insights-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+@media (max-width: 768px) {
+  .insights-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Sentiment Badge */
+.sentiment-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+}
+
+.sentiment-positive {
+  background-color: rgba(34, 197, 94, 0.15);
+  color: var(--accent-green);
+}
+
+.sentiment-negative {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: var(--accent-red);
+}
+
+.sentiment-neutral {
+  background-color: rgba(161, 161, 170, 0.15);
+  color: var(--text-muted);
+}
+
+/* Emotion Tags */
+.emotion-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.emotion-tag {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-light);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.emotion-tag:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--text-muted);
+}
+
+/* Toxicity Meter */
+.toxicity-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.toxicity-bar-bg {
+  flex-grow: 1;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.toxicity-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-green), var(--accent-yellow), var(--accent-red));
+  border-radius: 4px;
+  transition: width 1s ease-out;
+}
+
+.toxicity-score {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--text-light);
+}
+
+/* AI Take */
+.ai-take-section {
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.05), transparent);
+}
+
+.ai-take-content {
+  position: relative;
+  padding-left: 24px;
+  border-left: 3px solid var(--accent-blue);
+}
+
+.ai-take-text {
   font-style: italic;
-  margin-top: 20px;
+  color: var(--text-light);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+/* Error Message */
+.error-message {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--accent-red);
+  color: var(--accent-red);
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Buttons */
+.button-secondary {
+  background-color: transparent;
+  color: var(--text-light);
+  padding: 12px 24px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button-secondary:hover {
+  background-color: var(--white);
+  color: var(--dark-bg);
+  border-color: var(--white);
+  transform: translateY(-2px);
+}
+
+.center-button-container {
+  text-align: center;
+  margin-top: 40px;
 }
