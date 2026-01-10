@@ -345,3 +345,57 @@
   text-align: center;
   margin-top: 40px;
 }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+  .post-details-container {
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+
+  .post-title {
+    font-size: 1.75rem;
+  }
+
+  .post-meta {
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .post-meta span:nth-child(even) {
+    /* Hide separators on mobile if stacking */
+    display: none;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .summary-section {
+    padding: 24px;
+  }
+
+  .section-title {
+    font-size: 1.15rem;
+  }
+
+  .short-summary-text {
+    font-size: 1rem;
+  }
+
+  .detailed-viewpoint-text {
+    font-size: 0.95rem;
+  }
+
+  .insights-grid {
+    gap: 24px;
+  }
+
+  .button-secondary {
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+  }
+}

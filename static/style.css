@@ -223,3 +223,51 @@ input[type="url"]::placeholder {
   font-size: 0.95rem;
   display: inline-block;
 }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+  .header {
+    padding: 16px 20px;
+    justify-content: center;
+  }
+
+  .header a {
+    margin-left: 0;
+  }
+
+  .container {
+    padding: 24px;
+    width: 95%;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 1rem;
+    margin-bottom: 32px;
+  }
+
+  .form-input {
+    padding: 4px;
+    margin-bottom: 24px;
+  }
+
+  input[type="url"] {
+    padding: 14px 16px;
+    font-size: 1rem;
+  }
+
+  .button-primary {
+    padding: 14px 32px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .button-container {
+    width: 100%;
+  }
+}
