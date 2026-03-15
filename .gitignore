@@ -4,3 +4,4 @@
 .streamlit/secrets.toml
 test.html
 test.py
+node_modules
