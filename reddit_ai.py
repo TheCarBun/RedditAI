@@ -224,7 +224,7 @@ def get_post_details(submission):
         return f"ERROR: Could not find Post Details: {e}"
 
 
-def reddit_ai_response(post_details, comments: list, model="gemini-2.5-flash"):
+def reddit_ai_response(post_details, comments: list, user_api_key=None, model="gemini-2.5-flash"):
     # Process comments into author and body
     if comments is None:
         return None
@@ -241,7 +241,12 @@ def reddit_ai_response(post_details, comments: list, model="gemini-2.5-flash"):
         print(">> Returning Comment Data")
 
         # ----------- GEMINI PROCESSING -----------
-        client = Client(api_key=GEMINI_API_KEY)
+        api_key_to_use = user_api_key.strip() if user_api_key and user_api_key.strip() else GEMINI_API_KEY
+        
+        if not api_key_to_use:
+            raise ValueError("No Gemini API key provided. Please provide one in the UI or set the GEMINI_API_KEY environment variable.")
+            
+        client = Client(api_key=api_key_to_use)
 
         try:
             prompt = f"Post Details:\n {post_details}\n\nComments:\n{comments_data}"

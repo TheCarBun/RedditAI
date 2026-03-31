@@ -19,6 +19,7 @@ def index():
 @app.route('/summarize', methods=['POST'])
 def summarize():
     reddit_url = request.form.get('reddit_url')
+    gemini_api_key = request.form.get('gemini_api_key')
 
     if not reddit_url:
         return render_template('summary.html', error="Please enter a Reddit URL.")
@@ -44,7 +45,7 @@ def summarize():
     # Fetching Summary from Agno Reddit Agent
     if not error_message:
         try:
-            agent_response = reddit_ai_response(post_details_dict, post_comments)
+            agent_response = reddit_ai_response(post_details_dict, post_comments, user_api_key=gemini_api_key)
             if agent_response and agent_response.text:
                 try:
                     summary_data = json.loads(agent_response.text)

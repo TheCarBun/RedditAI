@@ -40,6 +40,14 @@
         <input type="url" id="reddit_url" name="reddit_url" required placeholder="Paste Reddit URL here..."
           value="{{ reddit_url if reddit_url else '' }}">
       </div>
+      <div class="api-key-section">
+        <div class="api-key-info">Optional: Provide your own Gemini API Key.</div>
+        <div class="form-input form-input-small">
+          <label for="gemini_api_key">Gemini API Key (Optional):</label>
+          <input type="password" id="gemini_api_key" name="gemini_api_key" placeholder="Enter API Key here..."
+            value="">
+        </div>
+      </div>
       <div class="button-container">
         <button class="button-primary" type="submit" id="submitButton">Summarize</button>
       </div>

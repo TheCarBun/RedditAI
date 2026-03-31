@@ -80,6 +80,7 @@ h1 {
 h1 span {
   background: linear-gradient(135deg, var(--accent-reddit), #ff8c00);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -115,7 +116,36 @@ label {
   /* Hide label for cleaner look, rely on placeholder */
 }
 
-input[type="url"] {
+.api-key-section {
+  text-align: left;
+  margin-bottom: 32px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.api-key-info {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0 0 8px 12px;
+  padding: 0;
+}
+
+.form-input.form-input-small {
+  padding: 4px;
+  margin-bottom: 0;
+  border-radius: 10px;
+}
+
+.form-input.form-input-small input[type="password"] {
+  padding: 10px 14px;
+  font-size: 0.95rem;
+}
+
+input[type="url"],
+input[type="text"],
+input[type="password"] {
   width: 100%;
   padding: 16px 20px;
   background-color: transparent;
@@ -127,7 +157,9 @@ input[type="url"] {
   font-family: var(--font-main);
 }
 
-input[type="url"]::placeholder {
+input[type="url"]::placeholder,
+input[type="text"]::placeholder,
+input[type="password"]::placeholder {
   color: #52525b;
 }
 
@@ -255,7 +287,9 @@ input[type="url"]::placeholder {
     margin-bottom: 24px;
   }
 
-  input[type="url"] {
+  input[type="url"],
+  input[type="text"],
+  input[type="password"] {
     padding: 14px 16px;
     font-size: 1rem;
   }
