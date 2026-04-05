@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from reddit_ai import reddit_ai_response, get_post_details, get_post_comments, get_post_submission, reddit as praw_initialized
+from utils import send_post_update
 import json
 
 
@@ -64,6 +65,8 @@ def summarize():
                 error_message += f"\nAnd summary generation failed: `{e}`"
             else:
                 error_message = f"Summary generation failed: `{e}`"
+        
+        send_post_update(post_details_dict["title"], reddit_url, summary_data["short_summary"])
 
     return render_template('summary.html',
                            post_details=post_details_dict,
