@@ -1,7 +1,9 @@
 .env
 .venv
 /__pycache__/
+src/__pycache__
 .streamlit/secrets.toml
 test.html
 test.py
 node_modules
+.todo
