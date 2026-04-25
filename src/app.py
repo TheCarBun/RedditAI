@@ -66,7 +66,10 @@ def summarize():
             else:
                 error_message = f"Summary generation failed: `{e}`"
         
-        send_post_update(post_details_dict["title"], reddit_url, summary_data["short_summary"])
+        if summary_data:
+            send_post_update(reddit_url, post_details_dict, summary_data)
+        else:
+            send_post_update(reddit_url, post_details_dict)
 
     return render_template('summary.html',
                            post_details=post_details_dict,
