@@ -270,16 +270,19 @@
 .toxicity-bar-bg {
   flex-grow: 1;
   height: 8px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(90deg,
+      var(--accent-green),
+      var(--accent-yellow),
+      var(--accent-red));
   border-radius: 4px;
   overflow: hidden;
 }
 
 .toxicity-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent-green), var(--accent-yellow), var(--accent-red));
-  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.6);
   transition: width 1s ease-out;
+  margin-left: auto;
 }
 
 .toxicity-score {
