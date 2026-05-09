@@ -124,7 +124,7 @@
         </div>
         <div class="toxicity-container">
           <div class="toxicity-bar-bg">
-            <div class="toxicity-bar-fill" style="width: {{ summary_data.toxicity_detection * 100 }}%;"></div>
+            <div class="toxicity-bar-fill" style="width: {{ 100-(summary_data.toxicity_detection * 100) }}%;"></div>
           </div>
           <span class="toxicity-score">{{ (summary_data.toxicity_detection * 100) | round(1) }}%</span>
         </div>
